@@ -5,6 +5,8 @@ import { Accordion } from "../../components/atoms/Accordion/Accordion"
 import { Course } from "../../@types/course"
 import { useState } from "react"
 import { Lesson } from "../../@types/lesson"
+import { useAppDispatch, useAppSelector } from "../../hook/useStore"
+import { createCourse } from "../../store/reducer/course/actions"
 
 
 export function uuidv4() {
@@ -18,7 +20,16 @@ export const CreateCourse = () => {
 
   const [course, setCourse] = useState<Course>({ title: "", description: "", modules: [] })
 
-  console.log(course)
+  const { course: { courses } } = useAppSelector(state => state)
+
+  console.log(courses)
+
+  const dispatch = useAppDispatch()
+
+  const addCourse = () => {
+    dispatch(createCourse(course))
+  }
+
 
   const addNewModule = () => {
     const modules = course.modules
@@ -58,6 +69,6 @@ export const CreateCourse = () => {
       </Box>
     </Card>
 
-    <Button variant="contained">Salvar Curso</Button>
+    <Button variant="contained" onClick={addCourse}>Salvar Curso</Button>
   </Box>)
 }
