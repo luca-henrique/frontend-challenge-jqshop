@@ -1,6 +1,6 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { initialState } from './initial-state';
-import { createCourse, readCourseRequest, readCourseSuccess, deleteModuleByCourse, deleteLesson, addLessonByModule, addNewModuleByCourseId } from './actions';
+import { createCourse, readCourseRequest, readCourseSuccess, deleteModuleByCourse, deleteLesson, addLessonByModule, addNewModuleByCourseId, deleteCourse, changeVisibilityModalCreateCouse,changeVisibilityModalEditCourse } from './actions';
 import { courses } from '../../../mock/courses';
 import { Course } from '../../../@types/course';
 import { uuidv4 } from '../../../pages/CreateCourse/CreateCourse';
@@ -8,6 +8,8 @@ import { uuidv4 } from '../../../pages/CreateCourse/CreateCourse';
 export const course = createReducer(initialState, (builder) => {
   builder.addCase(createCourse, (state, action) => {
     state.courses = [...state.courses, action.payload]
+  }).addCase(deleteCourse, (state, action) => {
+    state.courses = state.courses.filter(course => course.title !== action.payload)
   }).addCase(readCourseRequest, (state, action) => {
     state.loading = true
   }).addCase(readCourseSuccess, (state, action) => {
@@ -23,7 +25,6 @@ export const course = createReducer(initialState, (builder) => {
         : course
     )
   }).addCase(deleteLesson, (state, action) => {
-    console.log("bateu aqui")
     const { title, moduleId, lessonId } = action.payload
     const courses: Course[] = [...state.courses]
     state.courses = courses.map(course =>
@@ -79,5 +80,14 @@ export const course = createReducer(initialState, (builder) => {
         ? { ...course, modules: [...course.modules, module] }
         : course
     )
+  }).addCase(changeVisibilityModalCreateCouse, (state, action) => {
+    state.openModalCreateCourse = !state.openModalCreateCourse
+  }).addCase(changeVisibilityModalEditCourse, (state, action) => {
+    state.courseTitle = action.payload
+    
+    const searchCourseByTitle = courses.filter((course) => course.title === action.payload)[0]
+    
+    state.selectedCourse = searchCourseByTitle
+    state.openModalEditCourse = !state.openModalEditCourse
   })
 });

@@ -54,13 +54,13 @@ export const CreateCourse = () => {
 
   return (<Box>
     <Typography variant="h5">Sobre o curso</Typography>
-    <Input label="Nome do curso" />
-    <Input label="Descrição do curso" />
+    <Input label="Nome do curso" name={""} control={undefined} />
+    <Input label="Descrição do curso" name={""} control={undefined} />
 
     <Typography variant="h5">Informações sobre os modulos</Typography>
 
-    <Input label="Nome do modulo" />
-    <Input label="Descrição do modulo" />
+    <Input label="Nome do modulo" name={""} control={undefined} />
+    <Input label="Descrição do modulo" name={""} control={undefined} />
     <Button variant="contained" onClick={() => addNewModule()}>Adicionar modulo</Button>
 
     <Card>
