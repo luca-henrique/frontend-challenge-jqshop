@@ -33,11 +33,8 @@ const style = {
 export const ModalCourse = ({ open, handleClose }: ICreateLesson) => {
   const dispatch = useAppDispatch();
 
-  const { course: { courseTitle, selectedCourse } } = useAppSelector(state => state)
-
-  const isEdit = !!courseTitle
-  const isHaveObjectEdit = !!selectedCourse && isEdit
-
+  const { course: { courseId, selectedCourse, openModalEditCourse } } = useAppSelector(state => state)
+  const isEditCourse = courseId && openModalEditCourse
 
   const defaultValues = {
     title: "",
@@ -50,8 +47,8 @@ export const ModalCourse = ({ open, handleClose }: ICreateLesson) => {
   });
 
   const onSubmit: SubmitHandler<Course> = (data: Course) => {
-    if (isEdit) {
-      dispatch(editCourse({ titleCourse: selectedCourse.title, updatedCourse: data }));
+    if (isEditCourse) {
+      dispatch(editCourse({ courseId, updatedCourse: data }));
     } else {
       dispatch(createCourse(data));
     }
@@ -65,24 +62,24 @@ export const ModalCourse = ({ open, handleClose }: ICreateLesson) => {
   }
 
   useEffect(() => {
-    if (isHaveObjectEdit) {
+    if (isEditCourse) {
       reset(selectedCourse)
     } else {
       reset(defaultValues)
     }
-  }, [isHaveObjectEdit, selectedCourse, reset])
+  }, [isEditCourse, selectedCourse, reset])
 
 
   return (
     <Modal
-      open={isEdit ? isHaveObjectEdit : open}
+      open={open}
       onClose={handleClose}
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
     >
       <Box sx={style} component="form" onSubmit={handleSubmit(onSubmit)}>
         <Typography id="modal-modal-title" variant="h6" component="h2">
-          {isEdit ? "Editar " : "Criar "} curso
+          {isEditCourse ? "Editar " : "Criar "} curso
         </Typography>
         <Input control={control} label="Titulo" name="title" required />
         <InputTextArea
@@ -105,7 +102,7 @@ export const ModalCourse = ({ open, handleClose }: ICreateLesson) => {
             Cancelar
           </Button>
           <Button variant="contained" type="submit">
-            {isEdit ? "Editar " : "Criar"}
+            {isEditCourse ? "Editar " : "Criar"}
           </Button>
         </Box>
       </Box>

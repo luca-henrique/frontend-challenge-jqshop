@@ -4,10 +4,13 @@ export const initialState: ICoursesState = {
   courses: [],
   loading: false,
   
+  courseId:"",
+  
   openModalCreateCourse:false,
   
   openModalEditCourse:false,
   selectedCourse:{
+    id:'',
     title: '',
     description: '',
   },

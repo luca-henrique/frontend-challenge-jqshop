@@ -18,7 +18,7 @@ export function uuidv4() {
 
 export const CreateCourse = () => {
 
-  const [course, setCourse] = useState<Course>({ title: "", description: "", modules: [] })
+  const [course, setCourse] = useState<Course>({ title: "", description: "", modules: [], id: '', })
 
   const { course: { courses } } = useAppSelector(state => state)
 

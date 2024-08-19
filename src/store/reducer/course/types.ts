@@ -22,6 +22,7 @@ export interface ICoursesState {
   
   moduleId:string;
   lessonId:string
+  courseId:string
   
   
 }

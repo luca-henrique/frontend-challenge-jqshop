@@ -1,16 +1,42 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { initialState } from './initial-state';
-import { createCourse, readCourseRequest, readCourseSuccess, deleteModuleByCourse, deleteLesson, addLessonByModule, addNewModuleByCourseId, deleteCourse, changeVisibilityModalCreateCouse,changeVisibilityModalEditCourse, editCourse, changeVisibilityModalCreateModule, changeVisibilityModalEditModule, editModuleByCourse, changeVisibilityModalCreateLesson, changeVisibilityModalEditLesson, editLesson } from './actions';
+import { createCourse, readCourseRequest, readCourseSuccess, deleteModuleByCourse, deleteLesson, addLessonByModule, addNewModuleByCourseId, deleteCourse, changeVisibilityModalCreateCourse,changeVisibilityModalEditCourse, editCourse, changeVisibilityModalCreateModule, changeVisibilityModalEditModule, editModuleByCourse, changeVisibilityModalCreateLesson, changeVisibilityModalEditLesson, editLesson } from './actions';
 import { courses } from '../../../mock/courses';
 import { Course } from '../../../@types/course';
 import { uuidv4 } from '../../../pages/CreateCourse/CreateCourse';
 
 export const course = createReducer(initialState, (builder) => {
-  builder.addCase(createCourse, (state, action) => {
-    state.courses = [...state.courses, action.payload]
+  builder
+  .addCase(changeVisibilityModalCreateCourse, (state, action) => {
+    state.openModalCreateCourse = !state.openModalCreateCourse
+  })
+  .addCase(createCourse, (state, action) => {
+    state.courses = [...state.courses,{...action.payload, id:uuidv4()}]
+  }).addCase(changeVisibilityModalEditCourse, (state, action) => {
+    state.courseId = action.payload
+    const selectedCourse = state.courses.find((course) => course.id === action.payload)
+    //@ts-ignore
+    state.selectedCourse = selectedCourse
+    state.openModalEditCourse = !state.openModalEditCourse
+  }).addCase(editCourse, (state, action) => {
+    const {courseId, updatedCourse} = action.payload
+    const courses: Course[] = [...state.courses]
+    state.courses =  courses.map(course =>
+      course.id === courseId ? { ...course, ...updatedCourse } : course
+    )
   }).addCase(deleteCourse, (state, action) => {
-    state.courses = state.courses.filter(course => course.title !== action.payload)
-  }).addCase(readCourseRequest, (state, action) => {
+    const courses: Course[] = [...state.courses]
+    state.courses =  courses.filter((item) => item.id !== action.payload)
+  })
+});
+
+
+
+
+/*
+
+
+ }).addCase(readCourseRequest, (state, action) => {
     state.loading = true
   }).addCase(readCourseSuccess, (state, action) => {
     state.loading = false
@@ -179,4 +205,8 @@ export const course = createReducer(initialState, (builder) => {
         : course
     )
   })
-});
+
+
+
+
+*/

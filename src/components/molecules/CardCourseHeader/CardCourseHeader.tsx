@@ -5,19 +5,19 @@ import { changeVisibilityModalEditCourse, deleteCourse } from "../../../store/re
 
 
 interface ICardCourseHeader {
-  title: string
+  id: string
 }
 
-export const CardCourseHeader = ({ title }: ICardCourseHeader) => {
+export const CardCourseHeader = ({ id }: ICardCourseHeader) => {
   const dispatch = useDispatch();
 
 
   const handleEditCourse = () => {
-    dispatch(changeVisibilityModalEditCourse(title))
+    dispatch(changeVisibilityModalEditCourse(id))
   }
 
   const handleDeleteCourse = () => {
-    dispatch(deleteCourse(title))
+    dispatch(deleteCourse(id))
   }
 
   return (

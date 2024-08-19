@@ -15,12 +15,13 @@ import { PlusIcon } from "../../atoms/Icons/Icons";
 import { CardModule } from "../CardModule/CardModule";
 import { CardCourseHeader } from "../../molecules/CardCourseHeader/CardCourseHeader";
 
-export const CardCourse = ({ title, description, modules }: Course) => {
+export const CardCourse = ({ title, description, modules, id }: Course) => {
   const dispatch = useDispatch();
 
   const handleAddNewModule = (courseTitle: string) => {
     dispatch(changeVisibilityModalCreateModule(courseTitle))
   };
+
 
   return (
     <Card
@@ -32,7 +33,7 @@ export const CardCourse = ({ title, description, modules }: Course) => {
         position: "relative",
       }}
     >
-      <CardCourseHeader title={title} />
+      <CardCourseHeader id={id} />
       <Box
         sx={{
           gap: 0.5,

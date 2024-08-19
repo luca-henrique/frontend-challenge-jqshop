@@ -4,7 +4,7 @@ import { CardCourse } from "../../components/organisms/CardCourse/CardCourse"
 
 import { useAppDispatch, useAppSelector } from "../../hook/useStore"
 import { useEffect } from "react"
-import { changeVisibilityModalCreateCouse, changeVisibilityModalCreateLesson, changeVisibilityModalCreateModule, changeVisibilityModalEditCourse, changeVisibilityModalEditLesson, changeVisibilityModalEditModule, readCourseRequest } from "../../store/reducer/course/actions"
+import { changeVisibilityModalCreateCourse, changeVisibilityModalCreateLesson, changeVisibilityModalCreateModule, changeVisibilityModalEditCourse, changeVisibilityModalEditLesson, changeVisibilityModalEditModule, readCourseRequest } from "../../store/reducer/course/actions"
 import { PlusIcon } from "../../components/atoms/Icons/Icons"
 import { ModalCourse } from "../../components/organisms/ModalCourse/ModalCourse"
 import { ModalModule } from "../../components/organisms/ModalModule/ModalModule"
@@ -18,7 +18,7 @@ export const Home = () => {
     dispatch(readCourseRequest())
   }, [])
 
-  const { course: { courses, openModalCreateCourse, openModalEditCourse, courseTitle, openModalCreateModule, openModalEditModule, openModalCreateLesson, openModalEditLesson } } = useAppSelector(state => state)
+  const { course: { courses, openModalCreateCourse, openModalEditCourse, courseTitle, openModalCreateModule, openModalEditModule, openModalCreateLesson, openModalEditLesson, courseId } } = useAppSelector(state => state)
 
   const openModal = openModalCreateCourse || openModalEditCourse
 
@@ -26,11 +26,13 @@ export const Home = () => {
 
   const openModalLesson = openModalCreateLesson || openModalEditLesson
 
+  const isEditCourse = courseId && openModalEditCourse
+
   const handleCloseModalCourse = () => {
-    if (openModalEditCourse && courseTitle.length > 0) {
+    if (isEditCourse) {
       dispatch(changeVisibilityModalEditCourse(''))
     } else if (openModalCreateCourse) {
-      dispatch(changeVisibilityModalCreateCouse())
+      dispatch(changeVisibilityModalCreateCourse())
     }
   }
 
@@ -54,7 +56,7 @@ export const Home = () => {
     <Box>
       <Box sx={{ display: "flex", flexDirection: "row", padding: 2, justifyContent: "space-between", alignItems: "center" }}>
         <Typography variant="h3">All Courses</Typography>
-        <IconButton onClick={() => dispatch(changeVisibilityModalCreateCouse())}>
+        <IconButton onClick={() => dispatch(changeVisibilityModalCreateCourse())}>
           <PlusIcon />
         </IconButton>
       </Box>
