@@ -28,18 +28,20 @@ export const Home = () => {
 
   const isEditCourse = courseId && openModalEditCourse
 
+  const isEditModule = courseId && openModalEditModule
+
   const handleCloseModalCourse = () => {
     if (isEditCourse) {
       dispatch(changeVisibilityModalEditCourse(''))
-    } else if (openModalCreateCourse) {
+    } else {
       dispatch(changeVisibilityModalCreateCourse())
     }
   }
 
   const handleCloseModalModule = () => {
-    if (openModalEditModule) {
+    if (isEditModule) {
       dispatch(changeVisibilityModalEditModule(''))
-    } else if (openModalCreateModule) {
+    } else {
       dispatch(changeVisibilityModalCreateModule(""))
     }
   }

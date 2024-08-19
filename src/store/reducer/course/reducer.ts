@@ -28,6 +28,156 @@ export const course = createReducer(initialState, (builder) => {
     const courses: Course[] = [...state.courses]
     state.courses =  courses.filter((item) => item.id !== action.payload)
   })
+  .addCase(changeVisibilityModalCreateModule, (state, action) => {
+    state.courseId = action.payload
+    state.openModalCreateModule = !state.openModalCreateModule 
+  })
+  .addCase(addNewModuleByCourseId, (state, action) => {
+    const {courseId, module} = action.payload
+    const courses: Course[] = [...state.courses]
+    state.courses = courses.map(course =>
+      course.id === courseId
+       //@ts-ignore : não sei porque mas está dando erro na tipagem do modules...
+        ? { ...course, modules: [...course.modules, {...module, id: uuidv4()}] }
+        : course
+    )
+    state.courseId = ''
+  }).addCase(changeVisibilityModalEditModule, (state, action) => {
+    const {courseId, moduleId} = action.payload
+    state.courseId = courseId
+    state.moduleId = moduleId
+    const course = state.courses.find(course => course.id === courseId);
+    const module = course?.modules?.find(module => module.id === moduleId);
+     //@ts-ignore : não sei porque mas está dando erro na tipagem do modules...
+    state.selectedModule = module
+    state.openModalEditModule = !state.openModalEditModule 
+  })
+  .addCase(editModuleByCourse, (state, action) => {
+    const  {courseId, moduleId,updatedModule} = action.payload
+    const courses: Course[] = [...state.courses]
+    state.courses = courses.map(course =>
+      course.id === courseId
+        ? {
+            ...course,
+            //@ts-ignore
+            modules: course.modules.map(module =>
+              module.id === moduleId ? { ...module, ...updatedModule } : module
+            )
+          }
+        : course
+    )
+    state.courseId = ''
+    state.moduleId = ''
+  })
+  .addCase(deleteModuleByCourse, (state, action) => {
+    const { courseId, moduleId } = action.payload
+    const courses: Course[] = [...state.courses]
+    state.courses = courses.map(course =>
+      course.id === courseId
+        //@ts-ignore : não sei porque mas está dando erro na tipagem do modules...
+        ? { ...course, modules: course.modules.filter(module => module.id !== moduleId) }
+        : course
+    )
+  })
+  .addCase(changeVisibilityModalCreateLesson, (state, action) => {
+    const {moduleId, courseId} = action.payload
+    
+    state.courseId = courseId
+    state.moduleId = moduleId
+   
+    
+    state.openModalCreateLesson = !state.openModalCreateLesson 
+  })
+  .addCase(addLessonByModule, (state, action) => {
+    const { courseId, moduleId, lesson } = action.payload
+    
+    
+    const courses: Course[] = [...state.courses]
+    state.courses = courses.map(course =>
+      course.id === courseId
+        ? {
+            ...course,
+             //@ts-ignore : não sei porque mas está dando erro na tipagem do modules...
+            modules: course.modules.map(module =>
+              module.id === moduleId
+                ? {
+                    ...module,
+                    lessons: [
+                       //@ts-ignore : não sei porque mas está dando erro na tipagem do modules...
+                      ...module.lessons,
+                      {
+                        ...lesson,
+                        id: uuidv4()
+                      }
+                    ]
+                  }
+                : module
+            )
+          }
+        : course
+    )
+  })
+  .addCase(deleteLesson, (state, action) => {
+    const { courseId, moduleId, lessonId } = action.payload
+    const courses: Course[] = [...state.courses]
+    state.courses = courses.map(course =>
+      course.id === courseId
+        ? {
+          ...course,
+          //@ts-ignore : não sei porque mas está dando erro na tipagem do modules...
+          modules: course.modules.map(module =>
+            module.id === moduleId
+              ? {
+                ...module,
+                //@ts-ignore : não sei porque mas está dando erro na tipagem do modules...
+                lessons: module.lessons.filter(lesson => lesson.id !== lessonId)
+              }
+              : module
+          )
+        }
+        : course
+    )
+  })
+  .addCase(changeVisibilityModalEditLesson, (state, action) => {
+    const {moduleId, courseId, lessonId} = action.payload
+    
+    const course = state.courses.find(course => course.id === courseId);
+    const module = course?.modules?.find(module => module.id === moduleId);
+    const lesson = module?.lessons?.find(lesson => lesson.id === lessonId)
+    
+    state.openModalEditLesson = !state.openModalEditLesson
+    
+    //@ts-ignore
+    state.selectedLesson = lesson
+    state.courseId = courseId
+    state.moduleId = moduleId
+    state.lessonId = lessonId
+  })
+  .addCase(editLesson, (state, action) => {
+    
+    const {moduleId, courseId, lessonId,updatedModule} = action.payload
+    
+    const courses: Course[] = [...state.courses]
+   
+    
+    state.courses =  courses.map(course =>
+      course.id === courseId
+        ? {
+            ...course,
+            modules: course?.modules?.map(module =>
+              module.id === moduleId
+                ? {
+                    ...module,
+                    lessons: module?.lessons?.map(lesson =>
+                      lesson.id === lessonId ? { ...lesson, ...updatedModule } : lesson
+                    )
+                  }
+                : module
+            )
+          }
+        : course
+    )
+  })
 });
 
 

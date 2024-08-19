@@ -2,40 +2,41 @@ import { Box, IconButton, Typography } from "@mui/material";
 import { EditIcon, PlusIcon, TrashIcon } from "../../atoms/Icons/Icons";
 import { CardLesson } from "../CardLesson/CardLesson";
 import { changeVisibilityModalCreateLesson, changeVisibilityModalEditLesson, changeVisibilityModalEditModule, deleteLesson, deleteModuleByCourse } from "../../../store/reducer/course/actions";
-import { useAppDispatch } from "../../../hook/useStore";
+import { useAppDispatch, useAppSelector } from "../../../hook/useStore";
 import { Module } from "../../../@types/module";
 
 
 interface ICardModule extends Module {
-  courseTitle: string
+  courseId: string
 }
 
-export const CardModule = ({ courseTitle, title, id, description, lessons }: ICardModule) => {
+export const CardModule = ({ title, id, description, lessons, courseId }: ICardModule) => {
+
 
   const dispatch = useAppDispatch()
 
   const handleDeleteLesson = (
     lessonId: string
   ) => {
-    dispatch(deleteLesson({ courseTitle, moduleId: id, lessonId }));
+    dispatch(deleteLesson({ courseId, moduleId: id, lessonId }));
   };
 
   const deleteModule = (courseTitle: string, moduleId: string) => {
-    dispatch(deleteModuleByCourse({ courseTitle, moduleId }));
+    dispatch(deleteModuleByCourse({ courseId, moduleId }));
   };
 
-  const editModule = (lessonId: string) => {
-    dispatch(changeVisibilityModalEditLesson({ courseTitle, moduleId: id, lessonId }));
+  const editLesson = (lessonId: string) => {
+    dispatch(changeVisibilityModalEditLesson({ courseId, moduleId: id, lessonId }));
   };
 
   const handleAddNewLesson = (
     moduleId: string,
   ) => {
-    dispatch(changeVisibilityModalCreateLesson({ courseTitle, moduleId }))
+    dispatch(changeVisibilityModalCreateLesson({ courseId, moduleId }))
   }
 
   const handleOpenModalEditModule = (moduleId: string) => {
-    dispatch(changeVisibilityModalEditModule({ courseTitle, moduleId }))
+    dispatch(changeVisibilityModalEditModule({ courseId, moduleId }))
   }
 
   return (
@@ -57,7 +58,7 @@ export const CardModule = ({ courseTitle, title, id, description, lessons }: ICa
             <EditIcon />
           </IconButton>
           <IconButton
-            onClick={() => deleteModule(courseTitle, id)}
+            onClick={() => deleteModule(courseId, id)}
             size="small"
           >
             <TrashIcon />
@@ -66,7 +67,7 @@ export const CardModule = ({ courseTitle, title, id, description, lessons }: ICa
       </Box>
       <Typography>{description}</Typography>
       {lessons?.map((lesson) => (
-        <CardLesson {...lesson} deleteLesson={handleDeleteLesson} editLesson={editModule} key={lesson.id} />
+        <CardLesson {...lesson} deleteLesson={handleDeleteLesson} editLesson={editLesson} key={lesson.id} />
       ))}
     </>
   );

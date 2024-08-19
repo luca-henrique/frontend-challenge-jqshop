@@ -18,8 +18,8 @@ import { CardCourseHeader } from "../../molecules/CardCourseHeader/CardCourseHea
 export const CardCourse = ({ title, description, modules, id }: Course) => {
   const dispatch = useDispatch();
 
-  const handleAddNewModule = (courseTitle: string) => {
-    dispatch(changeVisibilityModalCreateModule(courseTitle))
+  const handleAddNewModule = () => {
+    dispatch(changeVisibilityModalCreateModule(id))
   };
 
 
@@ -55,12 +55,12 @@ export const CardCourse = ({ title, description, modules, id }: Course) => {
           }}
         >
           <Typography variant="h6">Modulos</Typography>
-          <IconButton size="small" onClick={() => handleAddNewModule(title)}>
+          <IconButton size="small" onClick={handleAddNewModule}>
             <PlusIcon />
           </IconButton>
         </Box>
         {modules?.map((module) => (
-          <CardModule courseTitle={title} key={module.id} {...module} />
+          <CardModule courseId={id} key={module.id} {...module} />
         ))}
       </Box>
     </Card>

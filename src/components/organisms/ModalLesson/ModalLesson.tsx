@@ -34,11 +34,10 @@ const style = {
 export const ModalLesson = ({ open, handleClose }: ICreateLesson) => {
   const dispatch = useAppDispatch();
 
-  const { course: { courseTitle, selectedLesson, openModalCreateLesson, openModalEditLesson, moduleId } } = useAppSelector(state => state)
+  const { course: { courseId, selectedLesson, openModalCreateLesson, openModalEditLesson, moduleId } } = useAppSelector(state => state)
 
 
-  const isEdit = !!courseTitle
-  const isHaveObjectEdit = !!selectedLesson && isEdit
+  const isEditModule = courseId && openModalEditLesson
 
   const defaultValues = {
     title: "",
@@ -53,10 +52,10 @@ export const ModalLesson = ({ open, handleClose }: ICreateLesson) => {
 
 
   const onSubmit: SubmitHandler<Lesson> = (data: Lesson) => {
-    if (!openModalCreateLesson) {
-      dispatch(editLesson({ courseTitle, moduleId, lessonId: selectedLesson.id, updatedModule: data }));
+    if (isEditModule) {
+      dispatch(editLesson({ courseId, moduleId, lessonId: selectedLesson.id, updatedModule: data }));
     } else {
-      dispatch(addLessonByModule({ courseTitle, moduleId, lesson: data }));
+      dispatch(addLessonByModule({ courseId, moduleId, lesson: data }));
     }
     reset();
     handleClose();
@@ -68,12 +67,12 @@ export const ModalLesson = ({ open, handleClose }: ICreateLesson) => {
   }
 
   useEffect(() => {
-    if (openModalEditLesson) {
+    if (isEditModule) {
       reset(selectedLesson)
     } else {
       reset(defaultValues)
     }
-  }, [isHaveObjectEdit, selectedLesson, reset, openModalCreateLesson])
+  }, [isEditModule, reset, openModalCreateLesson])
 
 
   return (
@@ -85,7 +84,7 @@ export const ModalLesson = ({ open, handleClose }: ICreateLesson) => {
     >
       <Box sx={style} component="form" onSubmit={handleSubmit(onSubmit)}>
         <Typography id="modal-modal-title" variant="h6" component="h2">
-          {!openModalCreateLesson ? "Editar " : "Criar "} lição
+          {isEditModule ? "Editar " : "Criar "} lição
         </Typography>
         <Input control={control} label="Titulo" name="title" required />
         <InputTextArea control={control} minRows={2} label="Descrição" name="description" required />
@@ -109,7 +108,7 @@ export const ModalLesson = ({ open, handleClose }: ICreateLesson) => {
             Cancelar
           </Button>
           <Button variant="contained" type="submit">
-            {!openModalCreateLesson ? "Editar " : "Criar"}
+            {isEditModule ? "Editar " : "Criar"}
           </Button>
         </Box>
       </Box>
