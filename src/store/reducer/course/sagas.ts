@@ -4,12 +4,11 @@ import { all, call, put, takeLatest } from 'redux-saga/effects';
 import {
   readCourseSuccess,
 } from './actions';
-import { courses } from '../../../mock/courses';
 
 function* readCourses({ payload }: any): any {
   try {
     // const {data} = yield call(api.post, '/sign-in', payload);
-    yield put(readCourseSuccess(courses));
+    yield put(readCourseSuccess([]));
   } catch (error: any) {
     console.log(error)
   }

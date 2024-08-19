@@ -1,11 +1,10 @@
 import { Box, IconButton, Typography } from "@mui/material";
 import { EditIcon, PlusIcon, TrashIcon } from "../../atoms/Icons/Icons";
 import { CardLesson } from "../CardLesson/CardLesson";
-import { addLessonByModule, deleteLesson, deleteModuleByCourse } from "../../../store/reducer/course/actions";
+import { changeVisibilityModalCreateLesson, changeVisibilityModalEditLesson, changeVisibilityModalEditModule, deleteLesson, deleteModuleByCourse } from "../../../store/reducer/course/actions";
 import { useAppDispatch } from "../../../hook/useStore";
 import { Module } from "../../../@types/module";
-import { Lesson } from "../../../@types/lesson";
-import { uuidv4 } from "../../../pages/CreateCourse/CreateCourse";
+
 
 interface ICardModule extends Module {
   courseTitle: string
@@ -14,7 +13,6 @@ interface ICardModule extends Module {
 export const CardModule = ({ courseTitle, title, id, description, lessons }: ICardModule) => {
 
   const dispatch = useAppDispatch()
-
 
   const handleDeleteLesson = (
     lessonId: string
@@ -26,13 +24,18 @@ export const CardModule = ({ courseTitle, title, id, description, lessons }: ICa
     dispatch(deleteModuleByCourse({ courseTitle, moduleId }));
   };
 
+  const editModule = (lessonId: string) => {
+    dispatch(changeVisibilityModalEditLesson({ courseTitle, moduleId: id, lessonId }));
+  };
+
   const handleAddNewLesson = (
-    courseTitle: string,
     moduleId: string,
   ) => {
+    dispatch(changeVisibilityModalCreateLesson({ courseTitle, moduleId }))
+  }
 
-    const lesson: Lesson = { title: "Modulo de exemplo", description: "123123", id: uuidv4(), content: "" }
-    dispatch(addLessonByModule({ courseTitle, moduleId, lesson }))
+  const handleOpenModalEditModule = (moduleId: string) => {
+    dispatch(changeVisibilityModalEditModule({ courseTitle, moduleId }))
   }
 
   return (
@@ -47,10 +50,10 @@ export const CardModule = ({ courseTitle, title, id, description, lessons }: ICa
       >
         <Typography variant="h6"># {title}</Typography>
         <Box sx={{ display: "flex", flexDirection: "row" }}>
-          <IconButton size="small" onClick={() => handleAddNewLesson(title, id)}>
+          <IconButton size="small" onClick={() => handleAddNewLesson(id)}>
             <PlusIcon />
           </IconButton>
-          <IconButton size="small">
+          <IconButton size="small" onClick={() => handleOpenModalEditModule(id)}>
             <EditIcon />
           </IconButton>
           <IconButton
@@ -61,8 +64,9 @@ export const CardModule = ({ courseTitle, title, id, description, lessons }: ICa
           </IconButton>
         </Box>
       </Box>
+      <Typography>{description}</Typography>
       {lessons?.map((lesson) => (
-        <CardLesson {...lesson} deleteLesson={handleDeleteLesson} key={lesson.id} />
+        <CardLesson {...lesson} deleteLesson={handleDeleteLesson} editLesson={editModule} key={lesson.id} />
       ))}
     </>
   );

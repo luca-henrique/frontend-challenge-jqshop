@@ -4,9 +4,11 @@ import { CardCourse } from "../../components/organisms/CardCourse/CardCourse"
 
 import { useAppDispatch, useAppSelector } from "../../hook/useStore"
 import { useEffect } from "react"
-import { changeVisibilityModalCreateCouse, changeVisibilityModalEditCourse, readCourseRequest } from "../../store/reducer/course/actions"
+import { changeVisibilityModalCreateCouse, changeVisibilityModalCreateLesson, changeVisibilityModalCreateModule, changeVisibilityModalEditCourse, changeVisibilityModalEditLesson, changeVisibilityModalEditModule, readCourseRequest } from "../../store/reducer/course/actions"
 import { PlusIcon } from "../../components/atoms/Icons/Icons"
 import { ModalCourse } from "../../components/organisms/ModalCourse/ModalCourse"
+import { ModalModule } from "../../components/organisms/ModalModule/ModalModule"
+import { ModalLesson } from "../../components/organisms/ModalLesson/ModalLesson"
 
 export const Home = () => {
 
@@ -16,15 +18,35 @@ export const Home = () => {
     dispatch(readCourseRequest())
   }, [])
 
-  const { course: { courses, openModalCreateCourse, openModalEditCourse, courseTitle } } = useAppSelector(state => state)
+  const { course: { courses, openModalCreateCourse, openModalEditCourse, courseTitle, openModalCreateModule, openModalEditModule, openModalCreateLesson, openModalEditLesson } } = useAppSelector(state => state)
 
   const openModal = openModalCreateCourse || openModalEditCourse
+
+  const openModalModule = openModalCreateModule || openModalEditModule
+
+  const openModalLesson = openModalCreateLesson || openModalEditLesson
 
   const handleCloseModalCourse = () => {
     if (openModalEditCourse && courseTitle.length > 0) {
       dispatch(changeVisibilityModalEditCourse(''))
     } else if (openModalCreateCourse) {
       dispatch(changeVisibilityModalCreateCouse())
+    }
+  }
+
+  const handleCloseModalModule = () => {
+    if (openModalEditModule) {
+      dispatch(changeVisibilityModalEditModule(''))
+    } else if (openModalCreateModule) {
+      dispatch(changeVisibilityModalCreateModule(""))
+    }
+  }
+
+  const handleCloseModalLesson = () => {
+    if (openModalEditLesson) {
+      dispatch(changeVisibilityModalEditLesson(''))
+    } else if (openModalCreateLesson) {
+      dispatch(changeVisibilityModalCreateLesson(""))
     }
   }
 
@@ -46,6 +68,8 @@ export const Home = () => {
       </Box>
 
       <ModalCourse open={openModal} handleClose={() => handleCloseModalCourse()} />
+      <ModalModule open={openModalModule} handleClose={() => handleCloseModalModule()} />
+      <ModalLesson open={openModalLesson} handleClose={() => handleCloseModalLesson()} />
     </Box>
   )
 }

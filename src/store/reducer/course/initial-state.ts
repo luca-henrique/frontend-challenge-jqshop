@@ -12,6 +12,19 @@ export const initialState: ICoursesState = {
     description: '',
   },
   
+  openModalCreateModule:false,
+  openModalEditModule:false,
+  selectedModule:{ id:"",title:"",description:"" },
+  
+  openModalCreateLesson:false,
+  openModalEditLesson:false,
+  selectedLesson: {
+    id: '',
+    title: '',
+    description: '',
+    content: ''
+  },
+  
   courseTitle:'',
   moduleId:'',
   lessonId:''

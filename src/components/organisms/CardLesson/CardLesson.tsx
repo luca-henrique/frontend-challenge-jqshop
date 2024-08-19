@@ -4,10 +4,10 @@ import { Lesson } from "../../../@types/lesson";
 
 interface ICardLesson extends Lesson {
   deleteLesson: (lessonId: string) => void
+  editLesson: (lessonId: string) => void
 }
 
-export const CardLesson = ({ title, description, content, id, deleteLesson }: ICardLesson) => {
-
+export const CardLesson = ({ title, description, content, id, deleteLesson, editLesson }: ICardLesson) => {
   return (
     <Box
       key={id}
@@ -33,7 +33,7 @@ export const CardLesson = ({ title, description, content, id, deleteLesson }: IC
       </Box>
 
       <Box sx={{ display: "flex", flexDirection: "row" }}>
-        <IconButton size="small">
+        <IconButton size="small" onClick={() => editLesson(id)}>
           <EditIcon />
         </IconButton>
         <IconButton

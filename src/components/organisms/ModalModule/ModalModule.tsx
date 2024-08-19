@@ -1,15 +1,16 @@
 import { Box, Modal, Typography } from "@mui/material";
 import { Button } from "../../atoms/Button/Button";
 import { Input } from "../../atoms/Input/Input";
-import { Course } from "../../../@types/course";
 import { useAppDispatch, useAppSelector } from "../../../hook/useStore";
 import {
-  createCourse,
-  editCourse,
+  addNewModuleByCourseId,
+  editModuleByCourse,
 } from "../../../store/reducer/course/actions";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useEffect } from "react";
 import { InputTextArea } from "../../atoms/InputTextArea/InputTextArea";
+import { Module } from "../../../@types/module";
+import { uuidv4 } from "../../../pages/CreateCourse/CreateCourse";
 
 interface ICreateLesson {
   open: boolean;
@@ -30,30 +31,30 @@ const style = {
   flexDirection: "column",
 };
 
-export const ModalCourse = ({ open, handleClose }: ICreateLesson) => {
+export const ModalModule = ({ open, handleClose }: ICreateLesson) => {
   const dispatch = useAppDispatch();
 
-  const { course: { courseTitle, selectedCourse } } = useAppSelector(state => state)
+  const { course: { courseTitle, selectedModule, openModalCreateModule, openModalEditModule } } = useAppSelector(state => state)
 
   const isEdit = !!courseTitle
-  const isHaveObjectEdit = !!selectedCourse && isEdit
-
+  const isHaveObjectEdit = !!selectedModule && isEdit
 
   const defaultValues = {
     title: "",
     description: "",
-    modules: [],
+    lessons: [],
   }
 
-  const { handleSubmit, reset, control } = useForm<Course>({
+  const { handleSubmit, reset, control } = useForm<Module>({
     defaultValues,
   });
 
-  const onSubmit: SubmitHandler<Course> = (data: Course) => {
-    if (isEdit) {
-      dispatch(editCourse({ titleCourse: selectedCourse.title, updatedCourse: data }));
+
+  const onSubmit: SubmitHandler<Module> = (data: Module) => {
+    if (!openModalCreateModule) {
+      dispatch(editModuleByCourse({ courseTitle, moduleId: selectedModule.id, updatedModule: data }));
     } else {
-      dispatch(createCourse(data));
+      dispatch(addNewModuleByCourseId({ courseTitle, module: { ...data, id: uuidv4() } }));
     }
     reset();
     handleClose();
@@ -65,24 +66,24 @@ export const ModalCourse = ({ open, handleClose }: ICreateLesson) => {
   }
 
   useEffect(() => {
-    if (isHaveObjectEdit) {
-      reset(selectedCourse)
+    if (openModalEditModule) {
+      reset(selectedModule)
     } else {
       reset(defaultValues)
     }
-  }, [isHaveObjectEdit, selectedCourse, reset])
+  }, [isHaveObjectEdit, selectedModule, reset, openModalEditModule])
 
 
   return (
     <Modal
-      open={isEdit ? isHaveObjectEdit : open}
+      open={open}
       onClose={handleClose}
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
     >
       <Box sx={style} component="form" onSubmit={handleSubmit(onSubmit)}>
         <Typography id="modal-modal-title" variant="h6" component="h2">
-          {isEdit ? "Editar " : "Criar "} curso
+          {!openModalCreateModule ? "Editar " : "Criar "} modulo
         </Typography>
         <Input control={control} label="Titulo" name="title" required />
         <InputTextArea
@@ -105,7 +106,7 @@ export const ModalCourse = ({ open, handleClose }: ICreateLesson) => {
             Cancelar
           </Button>
           <Button variant="contained" type="submit">
-            {isEdit ? "Editar " : "Criar"}
+            {!openModalCreateModule ? "Editar " : "Criar"}
           </Button>
         </Box>
       </Box>
