@@ -248,8 +248,8 @@ export default function getCustomThemeTheme(mode: any): ThemeOptions {
         styleOverrides: {
           root: ({ theme }) => ({
             boxShadow: 'none',
-            borderRadius: theme.shape.borderRadius,
             textTransform: 'none',
+            borderRadius: "8px",
             variants: [
               {
                 props: {
@@ -275,9 +275,7 @@ export default function getCustomThemeTheme(mode: any): ThemeOptions {
                 },
                 style: {
                   color: 'white',
-                  backgroundColor: brand[300],
-                  backgroundImage: `linear-gradient(to bottom, ${alpha(brand[400], 0.8)}, ${brand[500]})`,
-                  boxShadow: `inset 0 2px 0 ${alpha(brand[200], 0.2)}, inset 0 -2px 0 ${alpha(brand[700], 0.4)}`,
+                  backgroundColor: gray[900],
                   border: `1px solid ${brand[500]}`,
                   '&:hover': {
                     backgroundColor: brand[700],
@@ -294,9 +292,9 @@ export default function getCustomThemeTheme(mode: any): ThemeOptions {
                   variant: 'outlined',
                 },
                 style: {
-                  color: brand[700],
-                  backgroundColor: alpha(brand[300], 0.1),
-                  borderColor: alpha(brand[200], 0.8),
+                  color: gray[900],
+                  backgroundColor: "#fff",
+                  borderColor: alpha(gray[900], 0.8),
                   boxShadow: `inset 0 2px ${alpha(brand[50], 0.5)}, inset 0 -2px ${alpha(brand[200], 0.2)}`,
                   '&:hover': {
                     backgroundColor: alpha(brand[300], 0.2),

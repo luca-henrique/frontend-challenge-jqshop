@@ -22,7 +22,7 @@ export const CardCourseHeader = ({ id }: ICardCourseHeader) => {
 
   return (
     <Box>
-      <img src="https://fakeimg.pl/500x300/" alt="img" />
+      <img src="https://fakeimg.pl/350x200/" alt="img" />
       <Box sx={{
         display: "flex",
         flexDirection: "row",

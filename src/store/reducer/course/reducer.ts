@@ -1,9 +1,8 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { initialState } from './initial-state';
-import { createCourse, readCourseRequest, readCourseSuccess, deleteModuleByCourse, deleteLesson, addLessonByModule, addNewModuleByCourseId, deleteCourse, changeVisibilityModalCreateCourse,changeVisibilityModalEditCourse, editCourse, changeVisibilityModalCreateModule, changeVisibilityModalEditModule, editModuleByCourse, changeVisibilityModalCreateLesson, changeVisibilityModalEditLesson, editLesson } from './actions';
-import { courses } from '../../../mock/courses';
+import { createCourse, deleteModuleByCourse, deleteLesson, addLessonByModule, addNewModuleByCourseId, deleteCourse, changeVisibilityModalCreateCourse,changeVisibilityModalEditCourse, editCourse, changeVisibilityModalCreateModule, changeVisibilityModalEditModule, editModuleByCourse, changeVisibilityModalCreateLesson, changeVisibilityModalEditLesson, editLesson } from './actions';
 import { Course } from '../../../@types/course';
-import { uuidv4 } from '../../../pages/CreateCourse/CreateCourse';
+import { uuidv4 } from '../../../util/uuidv4';
 
 export const course = createReducer(initialState, (builder) => {
   builder

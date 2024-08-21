@@ -3,46 +3,56 @@ import { EditIcon, TrashIcon } from "../../atoms/Icons/Icons";
 import { Lesson } from "../../../@types/lesson";
 
 interface ICardLesson extends Lesson {
-  deleteLesson: (lessonId: string) => void
-  editLesson: (lessonId: string) => void
+  handleDeleteLesson: (lessonId: string) => void
+  handleEditLesson: (lessonId: string) => void
 }
 
-export const CardLesson = ({ title, description, content, id, deleteLesson, editLesson }: ICardLesson) => {
+export const CardLesson = ({ title, description, content, id, handleDeleteLesson, handleEditLesson }: ICardLesson) => {
   return (
-    <Box
-      key={id}
-      sx={{
-        display: "flex",
-        flexDirection: "row",
-        alignItems: "start",
-        justifyContent: "space-between",
-        marginLeft: 1,
-        mt: 2,
-      }}
-    >
+    <Box>
       <Box
         sx={{
           display: "flex",
-          flexDirection: "column",
-          alignItems: "start",
+          flexDirection: "row",
+          justifyContent: "space-between",
         }}
       >
-        <Typography> - {title}</Typography>
-        <Typography>{description}</Typography>
-        <Typography>{content}</Typography>
-      </Box>
-
-      <Box sx={{ display: "flex", flexDirection: "row" }}>
-        <IconButton size="small" onClick={() => editLesson(id)}>
-          <EditIcon />
-        </IconButton>
-        <IconButton
-          size="small"
-          onClick={() => deleteLesson(id)}
+        <Typography variant="h6"># {title}</Typography>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-between",
+            alignItems: "center",
+            gap: 1,
+          }}
         >
-          <TrashIcon />
-        </IconButton>
+          <IconButton
+            size="small"
+            sx={{
+              border: "1px solid rgb(0 0 0 / 0.08)",
+              borderRadius: "0.5rem",
+            }}
+            onClick={() => handleEditLesson(id)}
+          >
+            <EditIcon />
+          </IconButton>
+          <IconButton
+            size="small"
+            sx={{
+              border: "1px solid rgb(0 0 0 / 0.08)",
+              borderRadius: "0.5rem",
+            }}
+            onClick={() => handleDeleteLesson(id)}
+          >
+            <TrashIcon />
+          </IconButton>
+        </Box>
       </Box>
+      <Typography variant="subtitle1" color={"#212121"}>{description}</Typography>
+      <Typography variant="body1">
+        {content}
+      </Typography>
     </Box>
   );
 };

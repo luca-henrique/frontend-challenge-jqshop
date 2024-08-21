@@ -1,18 +1,10 @@
 import { Box } from "@mui/material"
-import ToggleColorMode from "../../organisms/checkout/ToggleColorMode"
-import { Link, useLocation } from "react-router-dom"
+import { ToggleChangeTheme } from "../ToggleChangeTheme/ToggleChangeTheme"
 
 export const Header = () => {
-  const location = useLocation();
-  const { pathname } = location;
-
-  const isHome = pathname === '/'
-
-
   return (
-    <Box sx={{ display: "flex", flexDirection: "row", justifyContent: !isHome ? "space-between" : 'flex-end' }}>
-      {!isHome ? <Link to={"/"}>Voltar</Link> : null}
-      <ToggleColorMode />
+    <Box sx={{ display: "flex", flexDirection: "row", justifyContent: "end", width: "76%", mt: 2 }}>
+      <ToggleChangeTheme />
     </Box>
   )
 }

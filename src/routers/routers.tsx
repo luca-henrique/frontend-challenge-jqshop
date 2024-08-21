@@ -1,35 +1,56 @@
 import {
   createBrowserRouter,
-  createRoutesFromElements,
-  Outlet,
-  Route,
 } from "react-router-dom";
 
 import { Home } from "../pages/Home/Home";
-import { Header } from "../components/molecules/Header/Header";
-import { CreateCourse } from "../pages/CreateCourse/CreateCourse";
-import { useAppDispatch } from "../hook/useStore";
-import { readCourseRequest } from "../store/reducer/course/actions";
-import { useEffect } from "react";
 
-const Layout = () => {
-  const dispatch = useAppDispatch()
+import { DetailCourse } from "../pages/DetailCourse/DetailCourse";
 
-  useEffect(() => {
-    dispatch(readCourseRequest())
-  }, [])
+export const router = createBrowserRouter([
+  {
+    // it renders this element
+    element: <Home />,
 
-  return (
-    <>
-      <Header />
-      <Outlet />
-    </>
-  )
-}
+    // when the URL matches this segment
+    path: "/",
 
-export const router = createBrowserRouter(createRoutesFromElements(
-  <Route path="/" element={<Layout />}>
-    <Route path="/" element={<Home />} />
-    <Route path="create" element={<CreateCourse />} />
-  </Route>
-));
+    // with this data loaded before rendering
+    loader: async ({ request, params }) => {
+      return fetch(
+        `/fake/api/teams/${params.teamId}.json`,
+        { signal: request.signal }
+      );
+    },
+
+    // performing this mutation when data is submitted to it
+    action: async ({ request }) => {
+      return console.log(await request.formData());
+    },
+
+    // and renders this element in case something went wrong
+    errorElement: <></>,
+  },
+  {
+    // it renders this element
+    element: <DetailCourse />,
+
+    // when the URL matches this segment
+    path: "/course/:courseId",
+
+    // with this data loaded before rendering
+    loader: async ({ request, params }) => {
+      return fetch(
+        `/fake/api/teams/${params.teamId}.json`,
+        { signal: request.signal }
+      );
+    },
+
+    // performing this mutation when data is submitted to it
+    action: async ({ request }) => {
+      return console.log(await request.formData());
+    },
+
+    // and renders this element in case something went wrong
+    errorElement: <></>,
+  },
+]);
