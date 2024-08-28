@@ -1,32 +1,20 @@
-import {
-  Box,
-  Card,
-  IconButton,
-  Typography,
-} from "@mui/material";
+import { Card } from "@mui/material";
 import { Course } from "../../../@types/course";
-import { useDispatch } from "react-redux";
-import {
-  changeVisibilityModalCreateModule,
-} from "../../../store/reducer/course/actions";
-
-
-import { PlusIcon } from "../../atoms/Icons/Icons";
-import { CardModule } from "../CardModule/CardModule";
 import { CardCourseHeader } from "../../molecules/CardCourseHeader/CardCourseHeader";
+import { ContentCardCourse } from "../ContentCardCourse/ContentCardCourse";
 
-export const CardCourse = ({ title, description, modules, id }: Course) => {
-  const dispatch = useDispatch();
-
-  const handleAddNewModule = () => {
-    dispatch(changeVisibilityModalCreateModule(id))
-  };
-
-
+export const CardCourse = ({ title, description, id }: Course) => {
   return (
     <Card
+      variant="outlined"
       sx={{
-        width: "500px",
+        width: {
+          xs: '100%',
+          xl: "350px",
+          lg: "350px",
+          md: "350px",
+          sm: "49%"
+        },
         display: "flex",
         flexDirection: "column",
         borderRadius: "4px",
@@ -34,35 +22,7 @@ export const CardCourse = ({ title, description, modules, id }: Course) => {
       }}
     >
       <CardCourseHeader id={id} />
-      <Box
-        sx={{
-          gap: 0.5,
-          display: "flex",
-          flexDirection: "column",
-          padding: 2,
-        }}
-      >
-        <Typography variant="h5">{title}</Typography>
-        <Typography>{description}</Typography>
-      </Box>
-      <Box sx={{ display: "flex", flexDirection: "column", padding: 2 }}>
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "space-between",
-            mb: 2,
-          }}
-        >
-          <Typography variant="h6">Modulos</Typography>
-          <IconButton size="small" onClick={handleAddNewModule}>
-            <PlusIcon />
-          </IconButton>
-        </Box>
-        {modules?.map((module) => (
-          <CardModule courseId={id} key={module.id} {...module} />
-        ))}
-      </Box>
+      <ContentCardCourse title={title} id={id} description={description} />
     </Card>
   );
 };

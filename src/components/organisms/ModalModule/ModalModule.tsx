@@ -10,7 +10,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { useEffect } from "react";
 import { InputTextArea } from "../../atoms/InputTextArea/InputTextArea";
 import { Module } from "../../../@types/module";
-import { uuidv4 } from "../../../pages/CreateCourse/CreateCourse";
+import { uuidv4 } from "../../../util/uuidv4";
 
 interface ICreateLesson {
   open: boolean;

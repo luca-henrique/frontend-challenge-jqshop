@@ -6,13 +6,12 @@ import ModeNightRoundedIcon from '@mui/icons-material/ModeNightRounded';
 import WbSunnyRoundedIcon from '@mui/icons-material/WbSunnyRounded';
 import { useTheme } from '../../../hook/useTheme';
 
-interface ToggleColorModeProps extends IconButtonProps {
-
+interface ToggleChangeThemeProps extends IconButtonProps {
 }
 
-export default function ToggleColorMode({
+export const ToggleChangeTheme = ({
   ...props
-}: ToggleColorModeProps) {
+}: ToggleChangeThemeProps) => {
 
   const { mode, onChangeThemeMode } = useTheme()
 
