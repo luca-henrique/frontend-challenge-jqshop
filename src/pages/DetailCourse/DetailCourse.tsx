@@ -3,9 +3,9 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../hook/useStore";
 import { Button } from "../../components/atoms/Button/Button";
 import {
-  EditIcon,
+
   PlusIcon,
-  TrashIcon,
+
 } from "../../components/atoms/Icons/Icons";
 import { ModalModule } from "../../components/organisms/ModalModule/ModalModule";
 import { ModalLesson } from "../../components/organisms/ModalLesson/ModalLesson";
@@ -14,12 +14,9 @@ import {
   changeVisibilityModalCreateModule,
   changeVisibilityModalEditLesson,
   changeVisibilityModalEditModule,
-  deleteLesson,
-  deleteModuleByCourse,
 } from "../../store/reducer/course/actions";
 
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { LessonList } from "../../components/organisms/LessonList/LessonList";
 import { ModuleList } from "../../components/organisms/ModuleList/ModuleList";
 
 export const DetailCourse = () => {
@@ -65,18 +62,6 @@ export const DetailCourse = () => {
     dispatch(changeVisibilityModalCreateModule(courseId));
   };
 
-  const handleAddNewLesson = (moduleId: string) => {
-    dispatch(changeVisibilityModalCreateLesson({ courseId, moduleId }));
-  };
-
-  const handleOpenModalEditModule = (moduleId: string) => {
-    dispatch(changeVisibilityModalEditModule({ courseId, moduleId }));
-  };
-
-  const deleteModule = (moduleId: string) => {
-    dispatch(deleteModuleByCourse({ courseId, moduleId }));
-  };
-
   const navigate = useNavigate();
 
   const handleBack = () => {
@@ -91,11 +76,13 @@ export const DetailCourse = () => {
             display: "flex",
             flexDirection: "column",
             background: "#000",
+
           }}
+
         >
           <IconButton
             onClick={handleBack}
-            sx={{ marginLeft: "20px", marginTop: "20px" }}
+            sx={{ marginLeft: "40px", marginTop: "20px", background: "#fff" }}
           >
             <ArrowBackIcon />
           </IconButton>
@@ -103,7 +90,6 @@ export const DetailCourse = () => {
             sx={{
               display: "flex",
               flexDirection: "row",
-              background: "#000",
               padding: "40px 24px",
               gap: 3,
             }}
@@ -111,10 +97,14 @@ export const DetailCourse = () => {
             <Box
               sx={{
                 display: "flex",
-                flexDirection: "row",
                 padding: "0px 24px",
                 justifyContent: "space-between",
                 width: "100%",
+                flexDirection: {
+                  xs: "column-reverse", md: 'row',
+                  lg: 'row',
+                  xl: 'row',
+                },
               }}
             >
               <Box

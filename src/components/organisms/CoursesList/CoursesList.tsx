@@ -15,7 +15,22 @@ export const CoursesList = () => {
   }, [dispatch])
 
   return (
-    <Box sx={{ display: "flex", flexDirection: "row", gap: 2, flexWrap: "wrap", mt: 2, width: "100%" }}>
+    <Box sx={{
+      display: "flex", flexDirection: "row", flexWrap: "wrap", mt: 2, width: "100%", justifyContent: {
+        xs: 'space-between',
+        sm: 'flex-start',
+        md: 'flex-start',
+        lg: 'flex-start',
+        xl: 'space-between',
+      }, gap: {
+        xs: '14px',
+        sm: '13px',
+        md: '14px',
+        lg: '14px',
+        xl: '14px 0px',
+      },
+
+    }}>
       {courses.map(course => {
         return (
           <CardCourse key={course.id} {...course} />

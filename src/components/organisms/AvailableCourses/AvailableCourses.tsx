@@ -10,7 +10,7 @@ export const AvailableCourses = () => {
 
   return (
     <>
-      <Box sx={{ display: "flex", flexDirection: "column", width: "76%", mt: 12 }}>
+      <Box sx={{ display: "flex", flexDirection: "column", mt: 2 }}>
         <HeaderCoursesList />
         <CoursesList />
       </Box>

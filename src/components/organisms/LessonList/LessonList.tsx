@@ -26,7 +26,7 @@ export const LessonList = ({
         return (
           <CardLesson
             key={lesson.id}
-            handleDeleteLesson={handleEditLesson}
+            handleDeleteLesson={handleDeleteLesson}
             handleEditLesson={handleEditLesson}
             {...lesson}
           />

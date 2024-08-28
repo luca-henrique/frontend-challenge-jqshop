@@ -3,7 +3,7 @@ import { ToggleChangeTheme } from "../ToggleChangeTheme/ToggleChangeTheme"
 
 export const Header = () => {
   return (
-    <Box sx={{ display: "flex", flexDirection: "row", justifyContent: "end", width: "76%", mt: 2 }}>
+    <Box sx={{ display: "flex", flexDirection: "row", justifyContent: "end", mt: 2 }}>
       <ToggleChangeTheme />
     </Box>
   )

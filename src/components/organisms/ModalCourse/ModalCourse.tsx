@@ -21,13 +21,25 @@ const style = {
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 550,
-  bgcolor: "#fff",
+  width: {
+    xs: '94%',
+    sm: '500px',
+    md: '600px',
+    lg: '600px',
+    xl: '600px',
+  },
+  backgroundColor: {
+    xs: '#fff',
+    sm: '#fff',
+    md: '#fff',
+    lg: '#fff',
+    xl: '#fff',
+  },
   p: 3,
-  borderRadius: 1,
-  gap: 2,
+  borderRadius: 0.5,
   display: "flex",
   flexDirection: "column",
+  gap: 1.5
 };
 
 export const ModalCourse = ({ open, handleClose }: ICreateLesson) => {
@@ -76,9 +88,14 @@ export const ModalCourse = ({ open, handleClose }: ICreateLesson) => {
       onClose={handleClose}
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
+      sx={{
+        p: {
+          xs: 4,
+        }
+      }}
     >
       <Box sx={style} component="form" onSubmit={handleSubmit(onSubmit)}>
-        <Typography id="modal-modal-title" variant="h6" component="h2">
+        <Typography id="modal-modal-title" variant="h5" component="h2">
           {isEditCourse ? "Editar " : "Criar "} curso
         </Typography>
         <Input control={control} label="Titulo" name="title" required />

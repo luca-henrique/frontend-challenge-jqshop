@@ -1,8 +1,7 @@
 import { Box, IconButton, Typography } from "@mui/material";
 import { EditIcon, PlusIcon, TrashIcon } from "../../atoms/Icons/Icons";
-import { CardLesson } from "../CardLesson/CardLesson";
 import { changeVisibilityModalCreateLesson, changeVisibilityModalEditLesson, changeVisibilityModalEditModule, deleteLesson, deleteModuleByCourse } from "../../../store/reducer/course/actions";
-import { useAppDispatch, useAppSelector } from "../../../hook/useStore";
+import { useAppDispatch } from "../../../hook/useStore";
 import { Module } from "../../../@types/module";
 import { Button } from "../../atoms/Button/Button";
 import { LessonList } from "../LessonList/LessonList";
@@ -17,14 +16,14 @@ export const CardModule = ({ title, id, description, lessons }: ICardModule) => 
   const dispatch = useAppDispatch();
   const { courseId } = useParams();
 
-  const handleAddNewLesson = (moduleId: string) => {
-    dispatch(changeVisibilityModalCreateLesson({ courseId, moduleId }));
+  const handleAddNewLesson = () => {
+    dispatch(changeVisibilityModalCreateLesson({ courseId, moduleId: id }));
   };
 
 
   const handleDeleteLesson = (lessonId: string) => {
     dispatch(
-      deleteLesson({ courseId, moduleId: module.id, lessonId })
+      deleteLesson({ courseId, moduleId: id, lessonId })
     );
   };
 
@@ -32,18 +31,18 @@ export const CardModule = ({ title, id, description, lessons }: ICardModule) => 
     dispatch(
       changeVisibilityModalEditLesson({
         courseId,
-        moduleId: module.id,
+        moduleId: id,
         lessonId,
       })
     );
   };
 
-  const handleOpenModalEditModule = (moduleId: string) => {
-    dispatch(changeVisibilityModalEditModule({ courseId, moduleId }));
+  const handleOpenModalEditModule = () => {
+    dispatch(changeVisibilityModalEditModule({ courseId, moduleId: id }));
   };
 
-  const handleDeleteModule = (moduleId: string) => {
-    dispatch(deleteModuleByCourse({ courseId, moduleId }));
+  const handleDeleteModule = () => {
+    dispatch(deleteModuleByCourse({ courseId, moduleId: id }));
   };
 
   return (
@@ -53,7 +52,7 @@ export const CardModule = ({ title, id, description, lessons }: ICardModule) => 
         borderRadius: "0.5rem",
         padding: 3,
       }}
-      key={module.id}
+      key={id}
     >
       <Box
         sx={{
@@ -79,7 +78,7 @@ export const CardModule = ({ title, id, description, lessons }: ICardModule) => 
               border: "1px solid rgb(0 0 0 / 0.08)",
               borderRadius: "0.5rem",
             }}
-            onClick={() => handleOpenModalEditModule(module.id)}
+            onClick={() => handleOpenModalEditModule()}
           >
             <EditIcon />
           </IconButton>
@@ -89,7 +88,7 @@ export const CardModule = ({ title, id, description, lessons }: ICardModule) => 
               border: "1px solid rgb(0 0 0 / 0.08)",
               borderRadius: "0.5rem",
             }}
-            onClick={() => handleDeleteModule(module.id)}
+            onClick={() => handleDeleteModule()}
           >
             <TrashIcon />
           </IconButton>
@@ -112,7 +111,7 @@ export const CardModule = ({ title, id, description, lessons }: ICardModule) => 
         <Button
           variant="contained"
           startIcon={<PlusIcon />}
-          onClick={() => handleAddNewLesson(module.id)}
+          onClick={() => handleAddNewLesson()}
         >
           Adicionar nova lição
         </Button>
